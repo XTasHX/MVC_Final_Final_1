@@ -13,6 +13,8 @@ using MVC_Final_Final.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace MVC_Final_Final
 {
@@ -38,8 +40,21 @@ namespace MVC_Final_Final
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>() .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            //<upload and download of files>
+            services.AddSingleton<IFileProvider>(
+               new PhysicalFileProvider(
+                   Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
+            services.AddMvc();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-        }
+
+
+
+           
+            }
+      
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
