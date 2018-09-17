@@ -12,6 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using MVC_Final_Final.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.Data.MySqlClient;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using MVC_Final_Final.Models.Docs;
 
 namespace MVC_Final_Final
 {
@@ -34,11 +38,21 @@ namespace MVC_Final_Final
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>() .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.Configure<DocsClass>(
+            this.Configuration.GetSection("DefaultConnection")
+   );
+
+            //<upload and download of files>
+
+            services.AddSingleton<IFileProvider>(
+                new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+
+            services.AddMvc();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

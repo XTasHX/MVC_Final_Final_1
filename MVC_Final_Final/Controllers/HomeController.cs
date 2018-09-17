@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Final_Final.Models;
+using MVC_Final_Final.Models.Docs;
 
 namespace MVC_Final_Final.Controllers
 {
     public class HomeController : Controller
     {
+
         public IActionResult Index()
         {
+       
             return View();
         }
 

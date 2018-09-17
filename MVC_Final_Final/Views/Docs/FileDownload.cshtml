@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MVC_Final_Final.Models.Docs.DocsClass>
+
+@{
+    ViewData["Title"] = "Download";
+}
+
+<form asp-controller="Docs" asp-action="Download" method="post"
+      enctype="multipart/form-data">
+
+    <input type="file" name="file" />
+    <button type="submit">Download File</button>
+</form>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Column heading</th>
+            <th scope="col">Column heading</th>
+            <th scope="col">Column heading</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-dark">
+            <th scope="row">Dark</th>
+            <td>Column content</td>
+            <td>Column content</td>
+            <td>Column content</td>
+        </tr>
+    </tbody>
+</table>
+
