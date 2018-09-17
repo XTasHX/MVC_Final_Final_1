@@ -63,10 +63,6 @@ namespace MVC_Final_Final.Controllers
                 {".docx", "application/vnd.ms-word"},
                 {".xls", "application/vnd.ms-excel"},
                 {".xlsx", "application/vnd.openxmlformats officedocument.spreadsheetml.sheet"},
-                {".png", "image/png"},
-                {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
-                {".gif", "image/gif"},
                 {".csv", "text/csv"}
             };
         }
