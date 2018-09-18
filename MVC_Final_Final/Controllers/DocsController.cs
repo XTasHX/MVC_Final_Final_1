@@ -24,7 +24,7 @@ namespace MVC_Final_Final.Controllers
 
             //var path = Path.Combine( Directory.GetCurrentDirectory(), "wwwroot",file.FileName);
 
-           string path = ("C:/Users/Tush/Desktop/New folder/MVC_Final_Final/" + file.FileName);
+           string path = ("C:/Users/Tush/Desktop/FileUploads/" + file.FileName);
 
             DocsClass MyDocs = new DocsClass();
             Hello = "Hello";
