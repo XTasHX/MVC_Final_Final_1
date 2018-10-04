@@ -7,6 +7,6 @@ namespace MVC_Final_Final.Models.Docs
 {
     public class DocsContext
     {
-      
+       public string DocNames { get; set; }
     }
 }

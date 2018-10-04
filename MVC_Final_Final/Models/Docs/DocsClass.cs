@@ -10,12 +10,16 @@ namespace MVC_Final_Final.Models.Docs
 {
     public class DocsClass
     {
-       // public string DBConn { get; set; }
+        // public string DBConn { get; set; }
 
-       string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
-       string InsertCmd;
+        string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
+        string InsertCmd;
+        string SelectCmd;
 
-      public MySqlConnection GetConnection()
+        public string DocNames { get; set; }
+
+
+        public MySqlConnection GetConnection()
         {
             return new MySqlConnection(DBConn);
         } 
@@ -50,29 +54,72 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
-        public List<string> GetDatabaseList()
+
+       // public List<string> GetDatabaseList()
+       // {
+       //     List<string> list = new List<string>();
+
+        //    using (MySqlConnection Myconn = GetConnection())
+        //    {
+        //        Myconn.Open();
+
+        //        using (MySqlCommand cmd = new MySqlCommand("SELECT DocName from documents", Myconn))
+        //        {
+         //           using (IDataReader dr = cmd.ExecuteReader())
+         //           {
+         //              while (dr.Read())
+         //               {
+          //                  list.Add(dr[0].ToString());
+          //              }
+          //          }
+          //      }
+          //  }
+         //   return list;
+
+       // }
+
+        public List<DocsClass> GetDatabaseList()
         {
-            List<string> list = new List<string>();
+            List<DocsClass> DocList = new List<DocsClass>();
 
             using (MySqlConnection Myconn = GetConnection())
             {
                 Myconn.Open();
+                MySqlCommand cmd = new MySqlCommand("select DocName from documents", Myconn);
 
-                using (MySqlCommand cmd = new MySqlCommand("SELECT UserID from aspnetusers", Myconn))
+                using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
-                    using (IDataReader dr = cmd.ExecuteReader())
+                    try
                     {
+  
                         while (dr.Read())
                         {
-                            list.Add(dr[0].ToString());
+                            DocList.Add(new DocsClass()
+                            {
+                                DocNames = dr.GetString(dr.GetOrdinal("DocName")),
+                            });
+
                         }
+                        dr.Close();
+                    }
+                    catch (Exception exp)
+                    {
+
+                        throw;
+                    }
+                    finally
+                    {
+
+                        Myconn.Close();
                     }
                 }
+                    
             }
-            return list;
+
+            return DocList;
 
         }
-
-
     }
+
+       
 }

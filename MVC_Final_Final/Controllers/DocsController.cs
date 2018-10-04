@@ -12,22 +12,19 @@ namespace MVC_Final_Final.Controllers
 
     public class DocsController : Controller
     {
-
-        string Hello;
-        string World;
+        DocsClass MyDocs = new DocsClass();
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult>UploadFile(IFormFile file)
         {
+            MyDocs.GetDatabaseList();
+
             if (file == null || file.Length == 0)
                 return Content("file not selected");
 
             //var path = Path.Combine( Directory.GetCurrentDirectory(), "wwwroot",file.FileName);
 
            string path = ("C:/Users/Tush/Desktop/FileUploads/" + file.FileName);
-
-            DocsClass MyDocs = new DocsClass();
-            Hello = "Hello";
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -39,8 +36,11 @@ namespace MVC_Final_Final.Controllers
             return View("FileUpload");
         }
 
-        public async Task<IActionResult> Download(string filename)
+        public async Task<IActionResult>Download(string filename)
         {
+
+           // MyDocs.GetDatabaseList();
+
             if (filename == null)
                 return Content("filename not present");
 
