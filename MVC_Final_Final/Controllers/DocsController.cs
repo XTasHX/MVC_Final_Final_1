@@ -17,7 +17,7 @@ namespace MVC_Final_Final.Controllers
         [HttpPost]
         public async Task<IActionResult>UploadFile(IFormFile file)
         {
-            MyDocs.GetDatabaseList();
+            MyDocs.GetDataList();
 
             if (file == null || file.Length == 0)
                 return Content("file not selected");
@@ -38,8 +38,7 @@ namespace MVC_Final_Final.Controllers
 
         public async Task<IActionResult>Download(string filename)
         {
-
-           // MyDocs.GetDatabaseList();
+           
 
             if (filename == null)
                 return Content("filename not present");

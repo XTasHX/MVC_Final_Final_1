@@ -83,7 +83,9 @@ namespace MVC_Final_Final
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute("Mydocs", "{controller=Docs}/{action=Download}/{DocName}");
+                routes.MapRoute(
+                   name: "DownloadRoute",
+                   template: "{controller=Docs}/{action=Download}/{docNames?}");
             });
         }
     }

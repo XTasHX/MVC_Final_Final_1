@@ -14,7 +14,6 @@ namespace MVC_Final_Final.Models.Docs
 
         string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
         string InsertCmd;
-        string SelectCmd;
 
         public string DocNames { get; set; }
 
@@ -54,33 +53,9 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
-
-       // public List<string> GetDatabaseList()
-       // {
-       //     List<string> list = new List<string>();
-
-        //    using (MySqlConnection Myconn = GetConnection())
-        //    {
-        //        Myconn.Open();
-
-        //        using (MySqlCommand cmd = new MySqlCommand("SELECT DocName from documents", Myconn))
-        //        {
-         //           using (IDataReader dr = cmd.ExecuteReader())
-         //           {
-         //              while (dr.Read())
-         //               {
-          //                  list.Add(dr[0].ToString());
-          //              }
-          //          }
-          //      }
-          //  }
-         //   return list;
-
-       // }
-
-        public List<DocsClass> GetDatabaseList()
+        public List<DocsContext> GetDataList()
         {
-            List<DocsClass> DocList = new List<DocsClass>();
+            List<DocsContext> DocList = new List<DocsContext>();
 
             using (MySqlConnection Myconn = GetConnection())
             {
@@ -94,9 +69,9 @@ namespace MVC_Final_Final.Models.Docs
   
                         while (dr.Read())
                         {
-                            DocList.Add(new DocsClass()
+                            DocList.Add(new DocsContext()
                             {
-                                DocNames = dr.GetString(dr.GetOrdinal("DocName")),
+                                DocNames = dr["DocName"].ToString()
                             });
 
                         }
