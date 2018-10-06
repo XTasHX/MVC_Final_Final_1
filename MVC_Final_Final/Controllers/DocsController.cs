@@ -5,7 +5,7 @@ using MVC_Final_Final.Models.Docs;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
+using MVC_Final_Final.Models;
 
 namespace MVC_Final_Final.Controllers
 {
@@ -13,11 +13,10 @@ namespace MVC_Final_Final.Controllers
     public class DocsController : Controller
     {
         DocsClass MyDocs = new DocsClass();
-
         [HttpPost]
         public async Task<IActionResult>UploadFile(IFormFile file)
         {
-            MyDocs.GetDataList();
+            
 
             if (file == null || file.Length == 0)
                 return Content("file not selected");
@@ -38,14 +37,12 @@ namespace MVC_Final_Final.Controllers
 
         public async Task<IActionResult>Download(string filename)
         {
-           
-
             if (filename == null)
                 return Content("filename not present");
 
-            var path = Path.Combine(
-                           Directory.GetCurrentDirectory(),
-                           "wwwroot", filename);
+            // var path = Path.Combine Directory.GetCurrentDirectory(), "wwwroot", filename);
+
+            string path = ("C:/Users/Tush/Desktop/FileUploads/" + filename);
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
@@ -87,7 +84,9 @@ namespace MVC_Final_Final.Controllers
 
         public IActionResult FileDownload()
         {
-            return View();
+            Models.Docs.DocsClass mycontext = HttpContext.RequestServices.GetService(typeof(Models.Docs.DocsClass)) as Models.Docs.DocsClass;
+
+            return View(mycontext.GetDataList());
         }
 
        

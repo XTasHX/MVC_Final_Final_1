@@ -41,6 +41,8 @@ namespace MVC_Final_Final
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>() .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.Add(new ServiceDescriptor(typeof(Models.Docs.DocsClass), new Models.Docs.DocsClass(Configuration.GetConnectionString("DefaultConnection"))));
+
             services.Configure<DocsClass>(
             this.Configuration.GetSection("DefaultConnection")
    );
@@ -83,9 +85,7 @@ namespace MVC_Final_Final
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
-                   name: "DownloadRoute",
-                   template: "{controller=Docs}/{action=Download}/{docNames?}");
+              
             });
         }
     }

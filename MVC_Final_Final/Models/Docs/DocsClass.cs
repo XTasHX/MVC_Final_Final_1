@@ -10,13 +10,17 @@ namespace MVC_Final_Final.Models.Docs
 {
     public class DocsClass
     {
-        // public string DBConn { get; set; }
-
         string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
         string InsertCmd;
 
-        public string DocNames { get; set; }
+        public string ConnectionString { get; set; }
 
+        public DocsClass(string connection)
+        {
+            this.ConnectionString = connection;
+        }
+
+        public DocsClass() { }
 
         public MySqlConnection GetConnection()
         {
@@ -66,34 +70,30 @@ namespace MVC_Final_Final.Models.Docs
                 {
                     try
                     {
-  
                         while (dr.Read())
                         {
                             DocList.Add(new DocsContext()
                             {
                                 DocNames = dr["DocName"].ToString()
                             });
-
                         }
                         dr.Close();
                     }
-                    catch (Exception exp)
+                    catch (Exception)
                     {
-
                         throw;
                     }
                     finally
                     {
-
                         Myconn.Close();
                     }
-                }
-                    
+                }   
             }
-
             return DocList;
-
         }
+
+
+       
     }
 
        
