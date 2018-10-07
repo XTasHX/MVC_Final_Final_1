@@ -117,6 +117,17 @@ textarea {
   font: inherit;
   color: inherit;
 }
+
+.bg-warning {
+    background-color: #F39C12 !important;
+}
+
+a.bg-warning:hover, a.bg-warning:focus,
+button.bg-warning:hover,
+button.bg-warning:focus {
+    background-color: #c87f0a !important;
+}
+
 button {
   overflow: visible;
 }
