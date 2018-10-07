@@ -4,20 +4,18 @@
     ViewData["Title"] = "Download";
 }
 
-
-
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Doc Name</th>
-                <th scope="col">Action</th>
+                <th style="color:#ff90e7; font-size:15pt;  scope="col">Doc Name</th>
+                <th style="color:#ff90e7; font-size:15pt; scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
             <tr class="table-dark">
-                <th scope="row">@item.DocNames</th>
+                <th style="color:#afafac;  scope="row">@item.DocNames</th>
                 <td> <a asp-area="" asp-controller="Docs" asp-action="Download" asp-route-filename=@item.DocNames>Download</a></td>
             </tr>
             }

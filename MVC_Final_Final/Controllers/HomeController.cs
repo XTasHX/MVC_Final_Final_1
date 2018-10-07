@@ -19,6 +19,11 @@ namespace MVC_Final_Final.Controllers
             return View();
         }
 
+        public IActionResult HomePage()
+        {
+            return View();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
