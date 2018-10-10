@@ -13,5 +13,8 @@ namespace MVC_Final_Final.Models.Docs
     public class DocsContext
     { 
        public string DocNames { get; set; }
+       public string DocUploadTime { get; set; }
+       public string fileSize { get; set; }
+       public string fileSizeType { get; set; }
     }
 }

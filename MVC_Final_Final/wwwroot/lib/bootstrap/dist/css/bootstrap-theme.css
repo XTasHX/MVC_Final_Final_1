@@ -4132,6 +4132,10 @@ input[type="button"].btn-block {
   }
 }
 
+.nav > li {
+    display: inline-block;
+}
+
 .nav {
   display: -webkit-box;
   display: -ms-flexbox;

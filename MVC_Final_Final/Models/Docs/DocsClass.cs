@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace MVC_Final_Final.Models.Docs
 {
+
     public class DocsClass
     {
         string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
@@ -25,11 +26,11 @@ namespace MVC_Final_Final.Models.Docs
         public MySqlConnection GetConnection()
         {
             return new MySqlConnection(DBConn);
-        } 
+        }
 
-        public bool InsertDocs(string DocName, string DocPath)
+        public bool InsertDocs(string DocName, string DocPath, string DocUploadTime, double fileSize,string fileSizeType)
         {
-            InsertCmd = "insert into mvc_data1.documents(DocName,DocPath) values('" + DocName + "','" + DocPath + "');";
+            InsertCmd = "INSERT into mvc_data1.documents(DocName,DocPath,DocUploadTime,DocSize,DocSizeType) values('" + DocName + "','" + DocPath + "','" + DocUploadTime + "','" + fileSize + "','"  + fileSizeType + "');";
 
             bool Succsess = false;
 
@@ -39,21 +40,21 @@ namespace MVC_Final_Final.Models.Docs
                 {
                     Myconn.Open();
 
-                    MySqlCommand cmd = new MySqlCommand(InsertCmd , Myconn);
-                
+                    MySqlCommand cmd = new MySqlCommand(InsertCmd, Myconn);
+
 
                     if (cmd.ExecuteNonQuery() == 1)
                         Succsess = true;
-                        
+
                 }
             }
 
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
 
-            
+
             return Succsess;
         }
 
@@ -64,7 +65,7 @@ namespace MVC_Final_Final.Models.Docs
             using (MySqlConnection Myconn = GetConnection())
             {
                 Myconn.Open();
-                MySqlCommand cmd = new MySqlCommand("select DocName from documents", Myconn);
+                MySqlCommand cmd = new MySqlCommand("select DocName , DocUploadTime , DocSize , DocSizeType from documents", Myconn);
 
                 using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -74,7 +75,10 @@ namespace MVC_Final_Final.Models.Docs
                         {
                             DocList.Add(new DocsContext()
                             {
-                                DocNames = dr["DocName"].ToString()
+                                DocNames = dr["DocName"].ToString(),
+                                DocUploadTime = dr["DocUploadTime"].ToString(),
+                                fileSize = dr["DocSize"].ToString(),
+                                fileSizeType = dr["DocSizeType"].ToString()
                             });
                         }
                         dr.Close();
@@ -87,13 +91,10 @@ namespace MVC_Final_Final.Models.Docs
                     {
                         Myconn.Close();
                     }
-                }   
+                }
             }
             return DocList;
         }
-
-
-       
     }
 
        

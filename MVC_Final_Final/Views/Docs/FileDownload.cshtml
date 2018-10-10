@@ -1,25 +1,35 @@
 ﻿@model IEnumerable<MVC_Final_Final.Models.Docs.DocsContext>
 
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
 @{
     ViewData["Title"] = "Download";
 }
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th style="color:#ff90e7; font-size:15pt;  scope="col">Doc Name</th>
-                <th style="color:#ff90e7; font-size:15pt; scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr class="table-dark">
-                <th style="color:#afafac;  scope="row">@item.DocNames</th>
-                <td> <a asp-area="" asp-controller="Docs" asp-action="Download" asp-route-filename=@item.DocNames>Download</a></td>
-            </tr>
-            }
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">User Name</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Doc Name</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Doc Size</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Upload Date & Time</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="table-dark">
+            <th style="color:#afafac; scope="row">@UserManager.GetUserName(User)</th>
+            <th style="color:#afafac; scope="row">@item.DocNames</th>
+            <th style="color:#afafac; scope="row">@item.fileSize @item.fileSizeType</th>
+            <th style="color:#afafac; scope="row">@item.DocUploadTime</th>
 
-        </tbody>
-    </table>
+            <td> <a asp-area="" asp-controller="Docs" asp-action="Download" asp-route-filename=@item.DocNames>Download</a></td>
+        </tr>
+        }
+
+    </tbody>
+</table>
 

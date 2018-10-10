@@ -6,12 +6,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using MVC_Final_Final.Models;
+using System;
 
 namespace MVC_Final_Final.Controllers
 {
 
     public class DocsController : Controller
     {
+        double fileSizeSend;
+        string fileSizeType;
+
         DocsClass MyDocs = new DocsClass();
         [HttpPost]
         public async Task<IActionResult>UploadFile(IFormFile file)
@@ -21,15 +25,34 @@ namespace MVC_Final_Final.Controllers
             if (file == null || file.Length == 0)
                 return Content("file not selected");
 
-            //var path = Path.Combine( Directory.GetCurrentDirectory(), "wwwroot",file.FileName);
-
            string path = ("C:/Users/Tush/Desktop/FileUploads/" + file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
-                
-                MyDocs.InsertDocs(file.FileName,path);
+
+                string strLastModified = System.IO.File.GetLastWriteTime(path).ToString("dd/MM/yyyy HH:mm:ss");
+
+                //Get and Calculate the fileSize
+                double fileSize = file.Length;
+
+                if (fileSize < 1024 && fileSize >= 0)
+                {
+                    fileSizeSend = Math.Round(fileSize , 2);
+                    fileSizeType = "Bytes";
+                }
+                else if(fileSize >= 1024 && fileSize < 1048576)
+                {
+                    fileSizeSend = Math.Round(fileSize / 1024 , 2);
+                    fileSizeType = "KB";
+                }
+                else
+                {
+                    fileSizeSend = Math.Round((fileSize / 1024) / 1024 , 2);
+                    fileSizeType = "MB";
+                }
+
+                MyDocs.InsertDocs(file.FileName,path,strLastModified, fileSizeSend, fileSizeType);
             }
 
             return View("FileUpload");
@@ -89,6 +112,8 @@ namespace MVC_Final_Final.Controllers
             return View(mycontext.GetDataList());
         }
 
-       
+
+
+
     }
 }
