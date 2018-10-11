@@ -43,6 +43,8 @@ namespace MVC_Final_Final
 
             services.Add(new ServiceDescriptor(typeof(Models.Docs.DocsClass), new Models.Docs.DocsClass(Configuration.GetConnectionString("DefaultConnection"))));
 
+            services.Add(new ServiceDescriptor(typeof(Models.Log.LogClass), new Models.Log.LogClass(Configuration.GetConnectionString("DefaultConnection"))));
+
             services.Configure<DocsClass>(
             this.Configuration.GetSection("DefaultConnection")
    );

@@ -14,7 +14,8 @@ namespace MVC_Final_Final.Models.Docs
         string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
         string InsertCmd;
         string UpdateCmd;
-        string SelectQuery;
+        string InsertHistoryCmd;
+
 
         public string ConnectionString { get; set; }
 
@@ -30,10 +31,10 @@ namespace MVC_Final_Final.Models.Docs
             return new MySqlConnection(DBConn);
         }
 
-        public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize,string fileSizeType)
+        public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize, string fileSizeType)
         {
             UpdateCmd = "UPDATE documents SET DocName = '" + DocName + "', DocPath = '" + DocPath + "', DocUploadTime = '" + DocUploadTime + "',  DocSize = '" + fileSize + "', DocSizeType = '" + fileSizeType + "' where  DocName = '" + DocName + "'";
-           
+
 
             bool Succsess = false;
 
@@ -70,31 +71,31 @@ namespace MVC_Final_Final.Models.Docs
             {
                 using (MySqlConnection Myconn = GetConnection())
                 {
-                    Myconn.Open(); 
+                    Myconn.Open();
 
-                    MySqlCommand Selectcmd = new MySqlCommand("SELECT * FROM documents WHERE (DocName = '" + DocNames + "')" , Myconn);
+                    MySqlCommand Selectcmd = new MySqlCommand("SELECT * FROM documents WHERE (DocName = '" + DocNames + "')", Myconn);
 
                     MySqlDataReader selectdr = Selectcmd.ExecuteReader();
 
-                  
-                        if ((selectdr.Read() == true))
 
-                        {
+                    if ((selectdr.Read() == true))
 
-                            UpdateDocs(DocNames,  DocPath,  DocUploadTime,  fileSize,  fileSizeType);
+                    {
 
-                        }
+                        UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType);
 
-                        else
+                    }
 
-                        {
+                    else
 
-                         InsertDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType);
+                    {
 
-                    } 
+                        InsertDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType);
+
+                    }
 
                 }
-  
+
             }
 
             catch (Exception)
@@ -137,6 +138,8 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
+
+
         public List<DocsContext> GetDataList()
         {
             List<DocsContext> DocList = new List<DocsContext>();
@@ -174,6 +177,8 @@ namespace MVC_Final_Final.Models.Docs
             }
             return DocList;
         }
+
+
     }
 
        

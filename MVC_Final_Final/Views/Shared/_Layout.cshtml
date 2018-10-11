@@ -43,6 +43,7 @@
                     {
                         <li><a asp-area="" asp-controller="Docs" asp-action="FileUpload">Upload</a></li>
                         <li><a asp-area="" asp-controller="Docs" asp-action="FileDownload">Download File</a></li>
+                        <li><a asp-area="" asp-controller="Log" asp-action="LogHistory">All History</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />
@@ -56,7 +57,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - FileLib</p>
+            <p> <img src="~/images/MiniLogo.png" alt="Sample Photo" />&copy; 2018 - FileLib</p>
         </footer>
     </div>
 

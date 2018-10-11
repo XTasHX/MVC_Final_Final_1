@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using MVC_Final_Final.Models;
+using MVC_Final_Final.Models.Log;
 using System;
 
 namespace MVC_Final_Final.Controllers
@@ -18,16 +19,15 @@ namespace MVC_Final_Final.Controllers
         string strLastModified;
 
         DocsClass MyDocs = new DocsClass();
+        LogClass MyLog = new LogClass();
+
         [HttpPost]
         public async Task<IActionResult>UploadFile(IFormFile file)
         {
-            
-
             if (file == null || file.Length == 0)
                 return Content("file not selected");
 
            string path = ("C:/Users/Tush/Desktop/FileUploads/" + file.FileName);
-           string CheckPath = ("C:/Users/Tush/Desktop/FileUploads/" + file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -55,6 +55,7 @@ namespace MVC_Final_Final.Controllers
                 }
 
                 MyDocs.SelectDocs(file.FileName,path,strLastModified, fileSizeSend, fileSizeType);
+                MyLog.LogHistoryInsert(file.FileName, path, strLastModified, fileSizeSend, fileSizeType);
             }
 
             return View("FileUpload");
@@ -64,8 +65,6 @@ namespace MVC_Final_Final.Controllers
         {
             if (filename == null)
                 return Content("filename not present");
-
-            // var path = Path.Combine Directory.GetCurrentDirectory(), "wwwroot", filename);
 
             string path = ("C:/Users/Tush/Desktop/FileUploads/" + filename);
 
@@ -114,7 +113,13 @@ namespace MVC_Final_Final.Controllers
             return View(mycontext.GetDataList());
         }
 
+        public IActionResult LogHistory()
+        {
+            return View();
 
+        }
+
+        //this.User.FindFirstValue(ClassTypes.NameIdentifier).toString()  //return view
 
 
     }
