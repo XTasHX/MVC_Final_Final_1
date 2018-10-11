@@ -15,6 +15,7 @@ namespace MVC_Final_Final.Controllers
     {
         double fileSizeSend;
         string fileSizeType;
+        string strLastModified;
 
         DocsClass MyDocs = new DocsClass();
         [HttpPost]
@@ -26,12 +27,13 @@ namespace MVC_Final_Final.Controllers
                 return Content("file not selected");
 
            string path = ("C:/Users/Tush/Desktop/FileUploads/" + file.FileName);
+           string CheckPath = ("C:/Users/Tush/Desktop/FileUploads/" + file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
 
-                string strLastModified = System.IO.File.GetLastWriteTime(path).ToString("dd/MM/yyyy HH:mm:ss");
+                strLastModified = System.IO.File.GetLastWriteTime(path).ToString("dd/MM/yyyy HH:mm:ss");
 
                 //Get and Calculate the fileSize
                 double fileSize = file.Length;
@@ -52,7 +54,7 @@ namespace MVC_Final_Final.Controllers
                     fileSizeType = "MB";
                 }
 
-                MyDocs.InsertDocs(file.FileName,path,strLastModified, fileSizeSend, fileSizeType);
+                MyDocs.SelectDocs(file.FileName,path,strLastModified, fileSizeSend, fileSizeType);
             }
 
             return View("FileUpload");
