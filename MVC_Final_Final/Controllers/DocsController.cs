@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MVC_Final_Final.Models;
 using MVC_Final_Final.Models.Log;
 using System;
+using System.Security.Claims;
 
 namespace MVC_Final_Final.Controllers
 {
@@ -35,6 +36,8 @@ namespace MVC_Final_Final.Controllers
 
                 strLastModified = System.IO.File.GetLastWriteTime(path).ToString("dd/MM/yyyy HH:mm:ss");
 
+                string user = User.Identity.Name;
+
                 //Get and Calculate the fileSize
                 double fileSize = file.Length;
 
@@ -54,8 +57,8 @@ namespace MVC_Final_Final.Controllers
                     fileSizeType = "MB";
                 }
 
-                MyDocs.SelectDocs(file.FileName,path,strLastModified, fileSizeSend, fileSizeType);
-                MyLog.LogHistoryInsert(file.FileName, path, strLastModified, fileSizeSend, fileSizeType);
+                MyDocs.SelectDocs(file.FileName,path,strLastModified, fileSizeSend, fileSizeType, user);
+                MyLog.LogHistoryInsert(file.FileName, path, strLastModified, fileSizeSend, fileSizeType,user);
             }
 
             return View("FileUpload");
@@ -119,7 +122,14 @@ namespace MVC_Final_Final.Controllers
 
         }
 
-        //this.User.FindFirstValue(ClassTypes.NameIdentifier).toString()  //return view
+        /*public IActionResult GetUser()
+        {
+            Models.Docs.DocsClass mycontext = HttpContext.RequestServices.GetService(typeof(Models.Docs.DocsClass)) as Models.Docs.DocsClass;
+
+            return View(this.User.FindFirstValue(ClassTypes.NameIdentifier).toString()) //return view
+        }*/
+
+
 
 
     }

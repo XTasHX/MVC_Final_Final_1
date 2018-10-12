@@ -31,9 +31,9 @@ namespace MVC_Final_Final.Models.Docs
             return new MySqlConnection(DBConn);
         }
 
-        public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize, string fileSizeType)
+        public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
         {
-            UpdateCmd = "UPDATE documents SET DocName = '" + DocName + "', DocPath = '" + DocPath + "', DocUploadTime = '" + DocUploadTime + "',  DocSize = '" + fileSize + "', DocSizeType = '" + fileSizeType + "' where  DocName = '" + DocName + "'";
+            UpdateCmd = "UPDATE documents SET DocName = '" + DocName + "', DocPath = '" + DocPath + "', DocUploadTime = '" + DocUploadTime + "',  DocSize = '" + fileSize + "', DocSizeType = '" + fileSizeType + "', UserName = '" + user + "' where  DocName = '" + DocName + "'";
 
 
             bool Succsess = false;
@@ -62,7 +62,7 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
-        public bool SelectDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType)
+        public bool SelectDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
         {
 
             bool Succsess = false;
@@ -82,7 +82,7 @@ namespace MVC_Final_Final.Models.Docs
 
                     {
 
-                        UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType);
+                        UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType,user);
 
                     }
 
@@ -90,7 +90,7 @@ namespace MVC_Final_Final.Models.Docs
 
                     {
 
-                        InsertDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType);
+                        InsertDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user);
 
                     }
 
@@ -107,9 +107,9 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
-        public bool InsertDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType)
+        public bool InsertDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
         {
-            InsertCmd = "INSERT into mvc_data1.documents(DocName,DocPath,DocUploadTime,DocSize,DocSizeType) values('" + DocNames + "','" + DocPath + "','" + DocUploadTime + "','" + fileSize + "','" + fileSizeType + "');";
+            InsertCmd = "INSERT into mvc_data1.documents(DocName,DocPath,DocUploadTime,DocSize,DocSizeType,UserName) values('" + DocNames + "','" + DocPath + "','" + DocUploadTime + "','" + fileSize + "','" + fileSizeType + "','" + user + "');";
 
 
             bool Succsess = false;
@@ -147,7 +147,7 @@ namespace MVC_Final_Final.Models.Docs
             using (MySqlConnection Myconn = GetConnection())
             {
                 Myconn.Open();
-                MySqlCommand cmd = new MySqlCommand("select DocName , DocUploadTime , DocSize , DocSizeType from documents", Myconn);
+                MySqlCommand cmd = new MySqlCommand("select DocName , DocUploadTime , DocSize , DocSizeType,UserName from documents", Myconn);
 
                 using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -160,7 +160,8 @@ namespace MVC_Final_Final.Models.Docs
                                 DocNames = dr["DocName"].ToString(),
                                 DocUploadTime = dr["DocUploadTime"].ToString(),
                                 fileSize = dr["DocSize"].ToString(),
-                                fileSizeType = dr["DocSizeType"].ToString()
+                                fileSizeType = dr["DocSizeType"].ToString(),
+                                UserName = dr["UserName"].ToString()
                             });
                         }
                         dr.Close();
