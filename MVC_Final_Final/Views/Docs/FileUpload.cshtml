@@ -4,33 +4,22 @@
     ViewData["Title"] = "upload";
 }
 
-
 <!DOCTYPE html>
 <html>
 <head>
-
     <h2 style="color:#ff90e7;">Please Choose a File to Upload</h2>
-
 </head>
 
 <body>
 
     <form asp-controller="Docs" asp-action="UploadFile" method="post"
           enctype="multipart/form-data">
-
-        
-
-        <input type="file" name="file" />
-        <button type="submit" >Upload File</button>
-
+        <input type="file" name="file" />  <button type="submit" >Upload File</button>
     </form>
-
-
 
     <footer>
         <p>&copy; 2018 - FileLib</p>
     </footer>
-
 
 </body>
 </html>

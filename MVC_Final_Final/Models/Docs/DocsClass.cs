@@ -12,10 +12,7 @@ namespace MVC_Final_Final.Models.Docs
     public class DocsClass
     {
         string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
-        string InsertCmd;
-        string UpdateCmd;
-        string InsertHistoryCmd;
-
+        string InsertCmd, InsertHistoryCmd, UpdateCmd;
 
         public string ConnectionString { get; set; }
 
@@ -31,10 +28,10 @@ namespace MVC_Final_Final.Models.Docs
             return new MySqlConnection(DBConn);
         }
 
+        //method to update database tabels
         public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
         {
             UpdateCmd = "UPDATE documents SET DocName = '" + DocName + "', DocPath = '" + DocPath + "', DocUploadTime = '" + DocUploadTime + "',  DocSize = '" + fileSize + "', DocSizeType = '" + fileSizeType + "', UserName = '" + user + "' where  DocName = '" + DocName + "'";
-
 
             bool Succsess = false;
 
@@ -46,10 +43,8 @@ namespace MVC_Final_Final.Models.Docs
 
                     MySqlCommand cmd = new MySqlCommand(UpdateCmd, Myconn);
 
-
                     if (cmd.ExecuteNonQuery() == 1)
                         Succsess = true;
-
                 }
             }
 
@@ -58,10 +53,10 @@ namespace MVC_Final_Final.Models.Docs
                 return false;
             }
 
-
             return Succsess;
         }
 
+        //method to select data from  database
         public bool SelectDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
         {
 
@@ -77,32 +72,24 @@ namespace MVC_Final_Final.Models.Docs
 
                     MySqlDataReader selectdr = Selectcmd.ExecuteReader();
 
-
                     if ((selectdr.Read() == true))
 
                     {
-
-                        UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType,user);
-
+                        UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user);
                     }
 
                     else
 
                     {
-
                         InsertDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user);
-
                     }
-
                 }
-
             }
 
             catch (Exception)
             {
                 return false;
             }
-
 
             return Succsess;
         }
@@ -139,7 +126,7 @@ namespace MVC_Final_Final.Models.Docs
         }
 
 
-
+        //ArrayList to store data for model used in views
         public List<DocsContext> GetDataList()
         {
             List<DocsContext> DocList = new List<DocsContext>();
@@ -178,9 +165,5 @@ namespace MVC_Final_Final.Models.Docs
             }
             return DocList;
         }
-
-
-    }
-
-       
+    }    
 }
