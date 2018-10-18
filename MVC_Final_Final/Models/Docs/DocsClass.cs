@@ -12,7 +12,7 @@ namespace MVC_Final_Final.Models.Docs
     public class DocsClass
     {
         string DBConn = "Server=localhost;port=3306;Database=mvc_Data1;User=root;Password=Natassja12;";
-        string InsertCmd, InsertHistoryCmd, UpdateCmd;
+        string InsertCmd,UpdateCmd,Selectquery, DeleteQuery;
 
         public string ConnectionString { get; set; }
 
@@ -31,7 +31,7 @@ namespace MVC_Final_Final.Models.Docs
         //method to update database tabels
         public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
         {
-            UpdateCmd = "UPDATE documents SET DocName = '" + DocName + "', DocPath = '" + DocPath + "', DocUploadTime = '" + DocUploadTime + "',  DocSize = '" + fileSize + "', DocSizeType = '" + fileSizeType + "', UserName = '" + user + "' where  DocName = '" + DocName + "'";
+            UpdateCmd = "UPDATE documents SET DocName = @DocName,DocPath = @DocPath, DocUploadTime = @DocUploadTime, DocSize = @fileSize , DocSizeType = @fileSizeType, UserName = @user WHERE  DocName = @DocName";
 
             bool Succsess = false;
 
@@ -42,6 +42,12 @@ namespace MVC_Final_Final.Models.Docs
                     Myconn.Open();
 
                     MySqlCommand cmd = new MySqlCommand(UpdateCmd, Myconn);
+                    cmd.Parameters.AddWithValue("@DocName", DocName);
+                    cmd.Parameters.AddWithValue("@DocPath", DocPath);
+                    cmd.Parameters.AddWithValue("@DocUploadTime", DocUploadTime);
+                    cmd.Parameters.AddWithValue("@fileSize", fileSize);
+                    cmd.Parameters.AddWithValue("@fileSizeType", fileSizeType);
+                    cmd.Parameters.AddWithValue("@user", user);
 
                     if (cmd.ExecuteNonQuery() == 1)
                         Succsess = true;
@@ -68,16 +74,20 @@ namespace MVC_Final_Final.Models.Docs
                 {
                     Myconn.Open();
 
-                    MySqlCommand Selectcmd = new MySqlCommand("SELECT * FROM documents WHERE (DocName = '" + DocNames + "')", Myconn);
+                    Selectquery = ("SELECT * FROM documents WHERE DocName = @DocNames;");
+
+                    MySqlCommand Selectcmd = new MySqlCommand(Selectquery, Myconn);
+                    Selectcmd.Parameters.AddWithValue("@DocNames", DocNames);
+          
 
                     MySqlDataReader selectdr = Selectcmd.ExecuteReader();
-
+                    //If Docs exists
                     if ((selectdr.Read() == true))
 
                     {
                         UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user);
                     }
-
+                    //If Doc does not exist
                     else
 
                     {
@@ -96,7 +106,7 @@ namespace MVC_Final_Final.Models.Docs
 
         public bool InsertDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
         {
-            InsertCmd = "INSERT into mvc_data1.documents(DocName,DocPath,DocUploadTime,DocSize,DocSizeType,UserName) values('" + DocNames + "','" + DocPath + "','" + DocUploadTime + "','" + fileSize + "','" + fileSizeType + "','" + user + "');";
+            InsertCmd = "INSERT into mvc_data1.documents(DocName,DocPath,DocUploadTime,DocSize,DocSizeType,UserName) values(@DocNames,@DocPath,@DocUploadTime,@fileSize,@fileSizeType,@user)";
 
 
             bool Succsess = false;
@@ -108,6 +118,12 @@ namespace MVC_Final_Final.Models.Docs
                     Myconn.Open();
 
                     MySqlCommand cmd = new MySqlCommand(InsertCmd, Myconn);
+                    cmd.Parameters.AddWithValue("@DocNames",DocNames);
+                    cmd.Parameters.AddWithValue("@DocPath", DocPath);
+                    cmd.Parameters.AddWithValue("@DocUploadTime", DocUploadTime);
+                    cmd.Parameters.AddWithValue("@fileSize", fileSize);
+                    cmd.Parameters.AddWithValue("@fileSizeType", fileSizeType);
+                    cmd.Parameters.AddWithValue("@user", user);
 
 
                     if (cmd.ExecuteNonQuery() == 1)
@@ -124,6 +140,36 @@ namespace MVC_Final_Final.Models.Docs
 
             return Succsess;
         }
+
+        public bool Delete(string FileName)
+        {
+            DeleteQuery = "DELETE FROM documents WHERE DocName = @DocName";
+
+            bool Succsess = false;
+
+            try
+            {
+                using (MySqlConnection Myconn = GetConnection())
+                {
+                    Myconn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(DeleteQuery, Myconn);
+                    cmd.Parameters.AddWithValue("@DocName",FileName);
+
+                    if (cmd.ExecuteNonQuery() == 1)
+                        Succsess = true;
+                }
+            }
+
+            catch (Exception)
+            {
+                
+                return false;
+            }
+
+            return Succsess;
+        }
+
 
 
         //ArrayList to store data for model used in views

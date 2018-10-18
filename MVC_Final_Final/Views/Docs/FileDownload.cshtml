@@ -20,14 +20,17 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr class="table-dark">
-            <th style="color:#afafac; scope="row">@item.UserName</th>
-            <th style="color:#afafac; scope="row">@item.DocNames</th>
-            <th style="color:#afafac; scope="row">@item.fileSize @item.fileSizeType</th>
-            <th style="color:#afafac; scope="row">@item.DocUploadTime</th>
+            <tr class="table-dark">
+                <th style="color:#afafac; scope="row">@item.UserName</th>
+                <th style="color:#afafac; scope="row">@item.DocNames</th>
+                <th style="color:#afafac; scope="row">@item.fileSize @item.fileSizeType</th>
+                <th style="color:#afafac; scope="row">@item.DocUploadTime</th>
 
-            <td> <a asp-area="" asp-controller="Docs" asp-action="Download" asp-route-filename=@item.DocNames>Download</a></td>
-        </tr>
+                <td> 
+                   <a asp-area="" asp-controller="Docs" asp-action="Download" asp-route-filename=@item.DocNames>Download</a> 
+                   <a class="btn btn-outline-danger" asp-area="" asp-controller="Docs" asp-action="Delete" asp-route-filename=@item.DocNames>Delete</a> 
+                </td>
+            </tr>
         }
 
     </tbody>

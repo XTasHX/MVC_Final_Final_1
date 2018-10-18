@@ -90,6 +90,7 @@ namespace MVC_Final_Final.Controllers
             return File(memory, GetContentType(path), Path.GetFileName(path));
         }
 
+
         //gets the file extention type
         private string GetContentType(string path)
         {
@@ -113,6 +114,17 @@ namespace MVC_Final_Final.Controllers
             };
         }
 
+      
+        public IActionResult Delete(string filename)
+        {
+            Models.Docs.DocsClass mycontext = HttpContext.RequestServices.GetService(typeof(Models.Docs.DocsClass)) as Models.Docs.DocsClass;
+
+            if (MyDocs.Delete(filename))
+                return View("FileDownload", mycontext.GetDataList());
+            else
+                return View("FileDownload", mycontext.GetDataList());
+        }
+
         public IActionResult FileUpload()
         {
             return View();
@@ -131,5 +143,6 @@ namespace MVC_Final_Final.Controllers
             return View();
 
         }
+       
     }
 }
