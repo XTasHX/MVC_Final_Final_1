@@ -40,7 +40,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">Help</a></li>
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <li><a asp-area="" asp-controller="Docs" asp-action="FileUpload">Upload</a></li>
+                        <li><a asp-area="" asp-controller="Docs" asp-action="PrivateDoc">Private</a></li>
+                        <li><a asp-area="" asp-controller="Docs" asp-action="FileUpload">Public</a></li>
                         <li><a asp-area="" asp-controller="Docs" asp-action="FileDownload">Download File</a></li>
                         <li><a asp-area="" asp-controller="Log" asp-action="LogHistory">All History</a></li>
                     }

@@ -131,6 +131,12 @@ namespace MVC_Final_Final.Controllers
 
         }
 
+        public IActionResult PrivateDoc()
+        {
+            return View();
+
+        }
+
         public IActionResult FileDownload()
         {
             Models.Docs.DocsClass mycontext = HttpContext.RequestServices.GetService(typeof(Models.Docs.DocsClass)) as Models.Docs.DocsClass;
