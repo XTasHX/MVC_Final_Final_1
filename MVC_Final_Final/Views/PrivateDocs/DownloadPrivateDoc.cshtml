@@ -1,0 +1,49 @@
+﻿
+@model IEnumerable<MVC_Final_Final.Models.Docs.DocsContext>
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Download";
+}
+
+<h2 style="color:#ff90e7;">Your Private Docs</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">User Name</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Doc Name</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Doc Size</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Upload Date & Time</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Doc Status</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+        @if (item.PrivateUserName.Equals(User.Identity.Name))
+         {
+
+        <tr class="table-dark">
+            <th style="color:#afafac; scope="row">@item.PrivateUserName</th>
+            <th style="color:#afafac; scope="row">@item.PrivateDocNames</th>
+            <th style="color:#afafac; scope="row">@item.PrivatefileSize @item.PrivatefileSizeType</th>
+            <th style="color:#afafac; scope="row">@item.PrivateDocUploadTime</th>
+            <th style="color:#afafac; scope="row">@item.Pvtstatus</th>
+
+            <td>
+                <a asp-area="" asp-controller="PrivateDocs" asp-action="Download" asp-route-filename=@item.PrivateDocNames>Download</a>
+                <a class="btn btn-outline-danger" asp-area="" asp-controller="PrivateDocs" asp-action="PrivateDelete" asp-route-filename=@item.PrivateDocNames>Delete</a>
+            </td>
+        </tr>
+            }
+        }
+
+    </tbody>
+</table>
+

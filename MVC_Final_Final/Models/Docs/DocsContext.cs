@@ -18,6 +18,14 @@ namespace MVC_Final_Final.Models.Docs
        public string fileSize { get; set; }
        public string fileSizeType { get; set; }
        public string UserName { get; set; }
+       public string status { get; set; }
+
+        public string PrivateDocNames { get; set; }
+       public string PrivateDocUploadTime { get; set; }
+       public string PrivatefileSize { get; set; }
+       public string PrivatefileSizeType { get; set; }
+       public string PrivateUserName { get; set; }
+        public string Pvtstatus { get; set; }
 
     }
 }
