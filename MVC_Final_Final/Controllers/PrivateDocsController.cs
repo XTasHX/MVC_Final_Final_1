@@ -16,7 +16,7 @@ namespace MVC_Final_Final.Controllers
     public class PrivateDocsController : Controller
     {
         double PrivatefileSizeSend, PrivatefileSize;
-        string PrivatefileSizeType, user, PrivatePath, strLastModified, privatePath,path,Pvtstatus;
+        string PrivatefileSizeType, user, PrivatePath, strLastModified, privatePath,path,Pvtstatus, PvtPrivateOrPublic;
 
         //Objects of model classes
 
@@ -33,11 +33,12 @@ namespace MVC_Final_Final.Controllers
 
             //get the user name that uploads the file (current logged in user)
             user = User.Identity.Name;
-            Pvtstatus = "Private";
+            Pvtstatus = "New";
+            PvtPrivateOrPublic = "Private";
 
-            //set path where upload files are sent to
+           //set path where upload files are sent to
 
-            PrivatePath = ("C:/Users/Tush/Desktop/FileUploads/" + user + "/");
+           PrivatePath = ("C:/Users/Tush/Desktop/FileUploads/" + user + "/");
             path = ("C:/Users/Tush/Desktop/FileUploads/" + user + "/" + file.FileName);
 
 
@@ -72,8 +73,8 @@ namespace MVC_Final_Final.Controllers
                     PrivatefileSizeType = "MB";
                 }
                 //calling two methods in the DocsController to store data in database
-                MyDocs.SelectPrivateDocs(file.FileName, path, strLastModified, PrivatefileSizeSend, PrivatefileSizeType, user, Pvtstatus);
-                MyLog.LogHistoryInsert(file.FileName, path, strLastModified, PrivatefileSizeSend, PrivatefileSizeType, user, Pvtstatus);
+                MyDocs.SelectPrivateDocs(file.FileName, path, strLastModified, PrivatefileSizeSend, PrivatefileSizeType, user, Pvtstatus, PvtPrivateOrPublic);
+                MyLog.LogHistoryInsert(file.FileName, path, strLastModified, PrivatefileSizeSend, PrivatefileSizeType, user,PvtPrivateOrPublic);
             }
             //  }
 

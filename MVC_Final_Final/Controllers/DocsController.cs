@@ -16,7 +16,7 @@ namespace MVC_Final_Final.Controllers
     public class DocsController : Controller
     {
         double fileSizeSend, fileSize;
-        string fileSizeType, user, path, strLastModified,privatePath,status;
+        string fileSizeType, user, path, strLastModified,privatePath,status,PrivateOrPublic;
         
         //Objects of model classes
 
@@ -33,7 +33,8 @@ namespace MVC_Final_Final.Controllers
 
             //get the user name that uploads the file (current logged in user)
             user = User.Identity.Name;
-            status = "Public";
+            status = "New";
+            PrivateOrPublic = "Public";
 
             //set path where upload files are sent to
 
@@ -65,10 +66,9 @@ namespace MVC_Final_Final.Controllers
                         fileSizeType = "MB";
                     }
                     //calling two methods in the DocsController to store data in database
-                    MyDocs.SelectDocs(file.FileName, path, strLastModified, fileSizeSend, fileSizeType, user,status);
-                    MyLog.LogHistoryInsert(file.FileName, path, strLastModified, fileSizeSend, fileSizeType, user,status);
+                    MyDocs.SelectDocs(file.FileName, path, strLastModified, fileSizeSend, fileSizeType, user,status,PrivateOrPublic);
+                    MyLog.LogHistoryInsert(file.FileName, path, strLastModified, fileSizeSend, fileSizeType, user,PrivateOrPublic);
                 }
-          //  }
 
             return View("FileUpload");
         }

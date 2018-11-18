@@ -29,14 +29,52 @@ namespace MVC_Final_Final.Models.Docs
         }
 
         //method to update database tabels
-        public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user)
+        public bool PrivateUpdateDocs(string PrivateDocName, string PrivateDocPath, string PrivateDocUploadTime, double PrivatefileSize, string PrivatefileSizeType, string user,string Pvtstaus,string PrivateOrPublic)
         {
-            UpdateCmd = "UPDATE documents SET DocName = @DocName,DocPath = @DocPath, DocUploadTime = @DocUploadTime, DocSize = @fileSize , DocSizeType = @fileSizeType, UserName = @user WHERE  DocName = @DocName";
+            UpdateCmd = "UPDATE privatedocs SET PrivateDocName = @DocName,PrivateDocPath = @DocPath, PrivateDocUploadTime = @DocUploadTime, PrivateDocSize = @fileSize , PrivateDocSizeType = @fileSizeType, UserName = @user , Status = @Status ,PrivateOrPublicStat = @PrivateOrPublic WHERE PrivateDocName = @DocName";
 
             bool Succsess = false;
 
             try
             {
+                Pvtstaus = "Updated";
+                using (MySqlConnection Myconn = GetConnection())
+                {
+                    Myconn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(UpdateCmd, Myconn);
+                    cmd.Parameters.AddWithValue("@DocName", PrivateDocName);
+                    cmd.Parameters.AddWithValue("@DocPath", PrivateDocPath);
+                    cmd.Parameters.AddWithValue("@DocUploadTime", PrivateDocUploadTime);
+                    cmd.Parameters.AddWithValue("@fileSize", PrivatefileSize);
+                    cmd.Parameters.AddWithValue("@fileSizeType", PrivatefileSizeType);
+                    cmd.Parameters.AddWithValue("@user", user);
+                    cmd.Parameters.AddWithValue("@Status", Pvtstaus);
+                    cmd.Parameters.AddWithValue("@PrivateOrPublic", PrivateOrPublic);
+
+                    if (cmd.ExecuteNonQuery() == 1)
+                        Succsess = true;
+                }
+            }
+
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return Succsess;
+        }
+
+        //method to update database tabels
+        public bool UpdateDocs(string DocName, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user, string Pvtstaus, string PrivateOrPublic)
+        {
+            UpdateCmd = "UPDATE documents SET DocName = @DocName, DocPath = @DocPath, DocUploadTime = @DocUploadTime, DocSize = @fileSize , DocSizeType = @fileSizeType, UserName = @user , Status = @Status ,PrivateOrPublicStat = @PrivateOrPublic WHERE DocName = @DocName";
+
+            bool Succsess = false;
+
+            try
+            {
+                Pvtstaus = "Updated";
                 using (MySqlConnection Myconn = GetConnection())
                 {
                     Myconn.Open();
@@ -48,6 +86,8 @@ namespace MVC_Final_Final.Models.Docs
                     cmd.Parameters.AddWithValue("@fileSize", fileSize);
                     cmd.Parameters.AddWithValue("@fileSizeType", fileSizeType);
                     cmd.Parameters.AddWithValue("@user", user);
+                    cmd.Parameters.AddWithValue("@Status", Pvtstaus);
+                    cmd.Parameters.AddWithValue("@PrivateOrPublic", PrivateOrPublic);
 
                     if (cmd.ExecuteNonQuery() == 1)
                         Succsess = true;
@@ -63,7 +103,7 @@ namespace MVC_Final_Final.Models.Docs
         }
 
         //method to select data from  database
-        public bool SelectDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user,string Pvtstatus)
+        public bool SelectDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user,string Pvtstatus,string PrivateOrPublic)
         {
 
             bool Succsess = false;
@@ -85,13 +125,13 @@ namespace MVC_Final_Final.Models.Docs
                     if ((selectdr.Read() == true))
 
                     {
-                        UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user);
+                        UpdateDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user, Pvtstatus, PrivateOrPublic);
                     }
                     //If Doc does not exist
                     else
 
                     {
-                        InsertDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user, Pvtstatus);
+                        InsertDocs(DocNames, DocPath, DocUploadTime, fileSize, fileSizeType, user, Pvtstatus, PrivateOrPublic);
                     }
                 }
             }
@@ -104,9 +144,9 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
-        public bool InsertDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user,string Pvtstatus)
+        public bool InsertDocs(string DocNames, string DocPath, string DocUploadTime, double fileSize, string fileSizeType, string user,string Pvtstatus,string PrivateOrPublic)
         {
-            InsertCmd = "INSERT into mvc_data1.documents(DocName,DocPath,DocUploadTime,DocSize,DocSizeType,UserName,status) values(@DocNames,@DocPath,@DocUploadTime,@fileSize,@fileSizeType,@user,@Pvtstatus)";
+            InsertCmd = "INSERT into mvc_data1.documents(DocName,DocPath,DocUploadTime,DocSize,DocSizeType,UserName,status,PrivateOrPublicStat) values(@DocNames,@DocPath,@DocUploadTime,@fileSize,@fileSizeType,@user,@Pvtstatus,@PrivateOrPublic)";
 
 
             bool Succsess = false;
@@ -125,6 +165,7 @@ namespace MVC_Final_Final.Models.Docs
                     cmd.Parameters.AddWithValue("@fileSizeType", fileSizeType);
                     cmd.Parameters.AddWithValue("@Pvtstatus", Pvtstatus);
                     cmd.Parameters.AddWithValue("@user", user);
+                    cmd.Parameters.AddWithValue("@PrivateOrPublic", PrivateOrPublic);
 
 
                     if (cmd.ExecuteNonQuery() == 1)
@@ -138,10 +179,11 @@ namespace MVC_Final_Final.Models.Docs
                 return false;
             }
 
-
+           
             return Succsess;
         }
 
+        //Method to delete data form database
         public bool Delete(string FileName)
         {
             DeleteQuery = "DELETE FROM documents WHERE DocName = @DocName";
@@ -171,9 +213,9 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
-        public bool InsertPrivateDocs(string PrivateDocNames, string PrivateDocPath, string PrivateDocUploadTime, double PrivatefileSize, string PrivatefileSizeType, string user,string status)
+        public bool InsertPrivateDocs(string PrivateDocNames, string PrivateDocPath, string PrivateDocUploadTime, double PrivatefileSize, string PrivatefileSizeType, string user,string status,string PrivateOrPublic)
         {
-            InsertCmd = "INSERT into mvc_data1.privatedocs(PrivateDocName,PrivateDocPath,PrivateDocUploadTime,PrivateDocSize,PrivateDocSizeType,UserName,status) values(@PrivateDocNames,@PrivateDocPath,@PrivateDocUploadTime,@PrivatefileSize,@PrivatefileSizeType,@user,@status)";
+            InsertCmd = "INSERT into mvc_data1.privatedocs(PrivateDocName,PrivateDocPath,PrivateDocUploadTime,PrivateDocSize,PrivateDocSizeType,UserName,status,PrivateOrPublicStat) values(@PrivateDocNames,@PrivateDocPath,@PrivateDocUploadTime,@PrivatefileSize,@PrivatefileSizeType,@user,@status,@PrivateOrPublic)";
 
 
             bool Succsess = false;
@@ -192,6 +234,7 @@ namespace MVC_Final_Final.Models.Docs
                     cmd.Parameters.AddWithValue("@PrivatefileSizeType", PrivatefileSizeType);
                     cmd.Parameters.AddWithValue("@user", user);
                     cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@PrivateOrPublic", PrivateOrPublic);
 
 
                     if (cmd.ExecuteNonQuery() == 1)
@@ -209,7 +252,7 @@ namespace MVC_Final_Final.Models.Docs
             return Succsess;
         }
 
-        public bool SelectPrivateDocs(string PrivateDocNames, string PrivateDocPath, string PrivateDocUploadTime, double PrivatefileSize, string PrivatefileSizeType, string user, string status)
+        public bool SelectPrivateDocs(string PrivateDocNames, string PrivateDocPath, string PrivateDocUploadTime, double PrivatefileSize, string PrivatefileSizeType, string user, string status,string PrivateOrPublic)
         {
 
             bool Succsess = false;
@@ -231,13 +274,13 @@ namespace MVC_Final_Final.Models.Docs
                     if ((selectdr.Read() == true))
 
                     {
-                        UpdateDocs(PrivateDocNames, PrivateDocPath, PrivateDocUploadTime, PrivatefileSize, PrivatefileSizeType, user);
+                        PrivateUpdateDocs(PrivateDocNames, PrivateDocPath, PrivateDocUploadTime, PrivatefileSize, PrivatefileSizeType, user,status,PrivateOrPublic);
                     }
                     //If Doc does not exist
                     else
 
                     {
-                        InsertPrivateDocs(PrivateDocNames, PrivateDocPath, PrivateDocUploadTime, PrivatefileSize, PrivatefileSizeType, user,status);
+                        InsertPrivateDocs(PrivateDocNames, PrivateDocPath, PrivateDocUploadTime, PrivatefileSize, PrivatefileSizeType, user,status,PrivateOrPublic);
                     }
                 }
             }
@@ -257,7 +300,7 @@ namespace MVC_Final_Final.Models.Docs
             using (MySqlConnection Myconn = GetConnection())
             {
                 Myconn.Open();
-                MySqlCommand cmd = new MySqlCommand("select DocName , DocUploadTime , DocSize , DocSizeType,UserName,status from documents", Myconn);
+                MySqlCommand cmd = new MySqlCommand("select DocName , DocUploadTime , DocSize , DocSizeType,UserName,status,PrivateOrPublicStat from documents", Myconn);
 
                 using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -272,6 +315,7 @@ namespace MVC_Final_Final.Models.Docs
                                 fileSize = dr["DocSize"].ToString(),
                                 fileSizeType = dr["DocSizeType"].ToString(),
                                 UserName = dr["UserName"].ToString(),
+                                PrivateOrPublic = dr["PrivateOrPublicStat"].ToString(),
                                 status = dr["status"].ToString()
                             });
                         }
@@ -299,7 +343,7 @@ namespace MVC_Final_Final.Models.Docs
             using (MySqlConnection Myconn = GetConnection())
             {
                 Myconn.Open();
-                MySqlCommand cmd = new MySqlCommand("select PrivateDocName , PrivateDocUploadTime , PrivateDocSize , PrivateDocSizeType,UserName,status from privatedocs", Myconn);
+                MySqlCommand cmd = new MySqlCommand("select PrivateDocName , PrivateDocUploadTime , PrivateDocSize , PrivateDocSizeType,UserName,status,PrivateOrPublicStat from privatedocs", Myconn);
 
                 using (MySqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -314,6 +358,7 @@ namespace MVC_Final_Final.Models.Docs
                                 PrivatefileSize = dr["PrivateDocSize"].ToString(),
                                 PrivatefileSizeType = dr["PrivateDocSizeType"].ToString(),
                                 PrivateUserName = dr["UserName"].ToString(),
+                                PvtPrivateOrPublic = dr["PrivateOrPublicStat"].ToString(),
                                 Pvtstatus = dr["status"].ToString()
                             });
                         }

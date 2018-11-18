@@ -17,6 +17,7 @@
             <th style="color:#ff90e7; font-size:15pt; scope="col">Doc Size</th>
             <th style="color:#ff90e7; font-size:15pt; scope="col">Upload Date & Time</th>
             <th style="color:#ff90e7; font-size:15pt; scope="col">Doc Status</th>
+            <th style="color:#ff90e7; font-size:15pt; scope="col">Private/Public Doc</th>
             <th style="color:#ff90e7; font-size:15pt; scope="col">Action</th>
         </tr>
     </thead>
@@ -29,6 +30,7 @@
             <th style="color:#afafac; scope="row">@item.fileSize @item.fileSizeType</th>
             <th style="color:#afafac; scope="row">@item.DocUploadTime</th>
             <th style="color:#afafac; scope="row">@item.status</th>
+            <th style="color:#afafac; scope="row">@item.PrivateOrPublic</th>
 
             <td>
                 <a asp-area="" asp-controller="Docs" asp-action="Download" asp-route-filename=@item.DocNames>Download</a>
